@@ -19,7 +19,9 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h2>My first Apollo app 🚀</h2>
+            <h2>My first Apollo app 
+            <span role="img" aria-label="rocket">🚀</span>
+            </h2>
           </header>
           <div>
             <EmpList />
