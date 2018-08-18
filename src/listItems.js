@@ -19,8 +19,14 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Employees" />
     </ListItem>
+    <ListItem button>
+    <ListItemIcon>
+      <PeopleIcon style={{color: 'red'}}/>
+    </ListItemIcon>
+    <ListItemText primary="Managers" />
+  </ListItem>
   </div>
 );
 
