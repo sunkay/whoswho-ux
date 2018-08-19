@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ApolloClient from "apollo-boost";
 import 'typeface-roboto';
 import './App.css';
-import './EmpList';
 
 import { ApolloProvider } from "react-apollo";
 import Dashboard from './Dashboard';

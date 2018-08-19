@@ -6,28 +6,40 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { Link } from "react-router-dom";
 
 export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Employees" />
-    </ListItem>
-    <ListItem button>
-    <ListItemIcon>
-      <PeopleIcon style={{color: 'red'}}/>
-    </ListItemIcon>
-    <ListItemText primary="Managers" />
-  </ListItem>
-  </div>
+    <div>
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItem>
+      <ListItem button component={
+        ({ children, ...props }) =>
+        <Link to="/employees" {...props}>
+          {children}
+        </Link>
+        }>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Employees">
+        </ListItemText>
+      </ListItem>
+      <ListItem button component={
+        ({ children, ...props }) =>
+        <Link to="/managers" {...props}>
+          {children}
+        </Link>
+        }>
+        <ListItemIcon>
+          <PeopleIcon style={{color: 'red'}}/>
+        </ListItemIcon>
+        <ListItemText primary="Managers" />
+      </ListItem>
+    </div>
 );
 
 export const secondaryListItems = (

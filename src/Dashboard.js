@@ -14,6 +14,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
 import EmpList from './EmpList';
+import MgrList from './MgrList';
+import { Route } from '../node_modules/react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -152,7 +155,8 @@ class Dashboard extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <div className={classes.tableContainer}>
-              <EmpList />
+              <Route path="/employees" component={EmpList}/>
+              <Route path="/managers" component={MgrList}/>
             </div>
           </main>
         </div>
