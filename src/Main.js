@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 import EmpList from "./EmpList";
 import MgrList from "./MgrList";
+import ApolloAutoComplete from "./ApolloAutoComplete";
 
 const styles = theme => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -27,6 +28,7 @@ function Main(props) {
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <div className={classes.tableContainer}>
+        <Route exact path="/" component={ApolloAutoComplete} />
         <Route path="/employees" component={EmpList} />
         <Route path="/managers" component={MgrList} />
       </div>
