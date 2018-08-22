@@ -63,7 +63,7 @@ function ApolloAutocomplete(props) {
             fullWidth: true,
             classes,
             InputProps: getInputProps({
-              placeholder: "Search a country (start with a)"
+              placeholder: "Search an employee (start with a)"
             })
           })}
           <ApolloAutoCompleteMenu
@@ -104,7 +104,6 @@ function ApolloAutoCompleteMenu({
       }}
     >
       {({ loading, error, data }) => {
-        console.log("data", data);
         const allEmps = (data && data.allEmployees) || [];
 
         if (loading) {
@@ -122,9 +121,9 @@ function ApolloAutoCompleteMenu({
                 style: { padding: 0, margin: 0, listStyle: "none" }
               })}
             >
-              {allEmps.map(({ firstname: item }, index) => (
+              {allEmps.map(({firstname: item, id, lastname}, index) => (
                 <MenuItem
-                  key={item}
+                  key={id}
                   {...getItemProps({
                     index,
                     item,
@@ -135,7 +134,7 @@ function ApolloAutoCompleteMenu({
                     }
                   })}
                 >
-                  {item}
+                  {item}, {lastname}
                 </MenuItem>
               ))}
             </ul>

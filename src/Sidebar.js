@@ -55,7 +55,14 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Reports</ListSubheader>
-    <ListItem button>
+    <ListItem
+      button
+      component={({ children, ...props }) => (
+        <Link to="/employee/1" {...props}>
+          {children}
+        </Link>
+      )}
+    >
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>

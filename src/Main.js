@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 import EmpList from "./EmpList";
 import MgrList from "./MgrList";
+import EmpDetails from "./EmpDetails";
 import ApolloAutoComplete from "./ApolloAutoComplete";
 
 const styles = theme => ({
@@ -31,6 +32,8 @@ function Main(props) {
         <Route exact path="/" component={ApolloAutoComplete} />
         <Route path="/employees" component={EmpList} />
         <Route path="/managers" component={MgrList} />
+        <Route path="/employee/:id" component={EmpDetails} />
+
       </div>
     </main>
   );
