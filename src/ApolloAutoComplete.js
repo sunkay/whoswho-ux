@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import { gql } from "apollo-boost";
 import Downshift from "downshift";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,6 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { Query } from "react-apollo";
 import { MenuItem } from "@material-ui/core";
+//import { Route } from "react-router-dom";
+//import EmpDetails from "./EmpDetails";
 
 const styles = theme => ({
   root: {
@@ -44,15 +46,20 @@ const GET_EMP = gql`
   }
 `;
 
-function forwardToEmployeeDetailsPage(id){
+function forwardToEmployeeDetailsPage(selectedItem) {
+  console.log(selectedItem);
 
+  alert(selectedItem.id);
 }
 
 function ApolloAutocomplete(props) {
   const { classes } = props;
 
   return (
-    <Downshift onChange={selectedItem => alert(selectedItem)}>
+    <Downshift 
+      onChange={forwardToEmployeeDetailsPage}
+      itemToString={item => (item ? item.firstname+", "+item.lastname : "")}
+    >
       {({
         inputValue,
         getInputProps,
@@ -125,20 +132,20 @@ function ApolloAutoCompleteMenu({
                 style: { padding: 0, margin: 0, listStyle: "none" }
               })}
             >
-              {allEmps.map(({firstname: item, id, lastname}, index) => (
+              {allEmps.map(({ firstname, id, lastname }, index) => (
                 <MenuItem
                   key={id}
                   {...getItemProps({
                     index,
-                    item,
+                    item:{firstname: firstname, id: id, lastname: lastname},
                     style: {
                       backgroundColor:
                         highlightedIndex === index ? "lightgray" : "white",
-                      fontWeight: selectedItem === item ? "bold" : "normal"
+                      fontWeight: selectedItem === firstname ? "bold" : "normal"
                     }
                   })}
                 >
-                  {item}, {lastname}
+                  {firstname}, {lastname}
                 </MenuItem>
               ))}
             </ul>
