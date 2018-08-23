@@ -1,6 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
+import { Divider } from "@material-ui/core";
 
 const GET_EMP = gql`
   query Employee($id: String!) {
@@ -26,7 +27,11 @@ function EmpDetails({match}) {
         if (error) return <div>Error :(</div>;
         return(
           <div>
-          {data.employee.firstname}
+          Firstname: {data.employee.firstname}
+          <Divider/>
+          Lastname: {data.employee.lastname}
+          <Divider/>
+          ID: {data.employee.id}
          </div> 
         )
       }}

@@ -44,6 +44,10 @@ const GET_EMP = gql`
   }
 `;
 
+function forwardToEmployeeDetailsPage(id){
+
+}
+
 function ApolloAutocomplete(props) {
   const { classes } = props;
 
