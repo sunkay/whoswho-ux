@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Divider } from "@material-ui/core";
+import ApolloAutoComplete from "./ApolloAutoComplete";
 
 const GET_EMP = gql`
   query Employee($id: String!) {
@@ -13,10 +14,10 @@ const GET_EMP = gql`
   }
 `;
 
-function EmpDetails({match}) {
+function EmpDetails({ match }) {
   var id = match.params.id;
   return (
-    <Query 
+    <Query
       query={GET_EMP}
       variables={{
         id
@@ -25,15 +26,17 @@ function EmpDetails({match}) {
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
-        return(
+        return (
           <div>
-          Firstname: {data.employee.firstname}
-          <Divider/>
-          Lastname: {data.employee.lastname}
-          <Divider/>
-          ID: {data.employee.id}
-         </div> 
-        )
+            <ApolloAutoComplete />
+            <Divider />
+            Firstname: {data.employee.firstname}
+            <Divider />
+            Lastname: {data.employee.lastname}
+            <Divider />
+            ID: {data.employee.id}
+          </div>
+        );
       }}
     </Query>
   );

@@ -57,10 +57,6 @@ class ApolloAutocompleteRoute extends Component {
     return (
       <div>
         <ApolloAutocomplete changeHandler={this.handleChange} {...this.props} />
-        <div>
-          <h2>Employee...</h2>
-          <Route path="/employee/:id" component={EmpDetails} />
-        </div>
       </div>
     );
   }
