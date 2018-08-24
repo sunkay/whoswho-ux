@@ -1,4 +1,4 @@
-import React  from "react";
+import React, {Component}  from "react";
 import { gql } from "apollo-boost";
 import Downshift from "downshift";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { Query } from "react-apollo";
 import { MenuItem } from "@material-ui/core";
-//import { Route } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 //import EmpDetails from "./EmpDetails";
 
 const styles = theme => ({
@@ -46,10 +46,22 @@ const GET_EMP = gql`
   }
 `;
 
-function forwardToEmployeeDetailsPage(selectedItem) {
-  console.log(selectedItem);
+class ApolloAutocompleteRoute extends Component{
+  handleChange = (selectedItem) => {
+    console.log(selectedItem);
+    this.props.history.push("/employee/"+selectedItem.id);  
+  };
 
-  alert(selectedItem.id);
+  render(){
+    return(
+      <div>
+        <ApolloAutocomplete 
+          changeHandler={this.handleChange}
+          {...this.props}
+        />
+      </div>
+    ) 
+  }
 }
 
 function ApolloAutocomplete(props) {
@@ -57,8 +69,8 @@ function ApolloAutocomplete(props) {
 
   return (
     <Downshift 
-      onChange={forwardToEmployeeDetailsPage}
       itemToString={item => (item ? item.firstname+", "+item.lastname : "")}
+      onChange={props.changeHandler}
     >
       {({
         inputValue,
@@ -173,4 +185,4 @@ function renderInput(inputProps) {
   );
 }
 
-export default withStyles(styles)(ApolloAutocomplete);
+export default withRouter(withStyles(styles)(ApolloAutocompleteRoute));
