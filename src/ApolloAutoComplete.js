@@ -1,4 +1,4 @@
-import React, {Component}  from "react";
+import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import Downshift from "downshift";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,8 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { Query } from "react-apollo";
 import { MenuItem } from "@material-ui/core";
-import { withRouter } from "react-router-dom";
-//import EmpDetails from "./EmpDetails";
+import { withRouter, Route } from "react-router-dom";
+import EmpDetails from "./EmpDetails";
 
 const styles = theme => ({
   root: {
@@ -46,21 +46,23 @@ const GET_EMP = gql`
   }
 `;
 
-class ApolloAutocompleteRoute extends Component{
-  handleChange = (selectedItem) => {
+class ApolloAutocompleteRoute extends Component {
+  handleChange = selectedItem => {
     console.log(selectedItem);
-    this.props.history.push("/employee/"+selectedItem.id);  
+
+    this.props.history.push("/employee/" + selectedItem.id);
   };
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
-        <ApolloAutocomplete 
-          changeHandler={this.handleChange}
-          {...this.props}
-        />
+        <ApolloAutocomplete changeHandler={this.handleChange} {...this.props} />
+        <div>
+          <h2>Employee...</h2>
+          <Route path="/employee/:id" component={EmpDetails} />
+        </div>
       </div>
-    ) 
+    );
   }
 }
 
@@ -68,8 +70,8 @@ function ApolloAutocomplete(props) {
   const { classes } = props;
 
   return (
-    <Downshift 
-      itemToString={item => (item ? item.firstname+", "+item.lastname : "")}
+    <Downshift
+      itemToString={item => (item ? item.firstname + ", " + item.lastname : "")}
       onChange={props.changeHandler}
     >
       {({
@@ -149,7 +151,7 @@ function ApolloAutoCompleteMenu({
                   key={id}
                   {...getItemProps({
                     index,
-                    item:{firstname: firstname, id: id, lastname: lastname},
+                    item: { firstname: firstname, id: id, lastname: lastname },
                     style: {
                       backgroundColor:
                         highlightedIndex === index ? "lightgray" : "white",
