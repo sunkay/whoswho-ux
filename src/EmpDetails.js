@@ -8,6 +8,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import { Paper } from "@material-ui/core";
 
 const GET_EMP = gql`
   query Employee($id: String!) {
@@ -23,6 +24,10 @@ const styles = {
   card: {
     minWidth: 275
   },
+  search: {
+    marginLeft: 20,
+    marginRight: 20
+  },
   bullet: {
     display: "inline-block",
     margin: "0 2px",
@@ -36,10 +41,9 @@ const styles = {
     marginBottom: 12
   },
   top: {
-      marginTop: 75
+    marginTop: 10
   }
 };
-
 
 function EmpDetails(props) {
   const { classes } = props;
@@ -57,21 +61,29 @@ function EmpDetails(props) {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
         return (
-          <Card className={classes.card}>
-          <CardContent>
-            <ApolloAutoComplete />
-            <Typography variant="headline" component="h2" className={classes.top}>
-              {data.employee.firstname}
-              {bull}
-              {data.employee.lastname}
-              {bull}
-              {data.employee.id}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">More...</Button>
-          </CardActions>
-        </Card>
+          <Paper>
+            <div className={classes.search}>
+              <ApolloAutoComplete />
+            </div>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography
+                  variant="headline"
+                  component="h2"
+                  className={classes.top}
+                >
+                  {data.employee.firstname}
+                  {bull}
+                  {data.employee.lastname}
+                  {bull}
+                  {data.employee.id}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">More...</Button>
+              </CardActions>
+            </Card>
+          </Paper>
         );
       }}
     </Query>

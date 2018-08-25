@@ -6,8 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { Query } from "react-apollo";
 import { MenuItem } from "@material-ui/core";
-import { withRouter, Route } from "react-router-dom";
-import EmpDetails from "./EmpDetails";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -84,7 +83,7 @@ function ApolloAutocomplete(props) {
             fullWidth: true,
             classes,
             InputProps: getInputProps({
-              placeholder: "Search an employee (start with a)"
+              placeholder: "Search an employee"
             })
           })}
           <ApolloAutoCompleteMenu
