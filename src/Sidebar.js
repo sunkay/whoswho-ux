@@ -12,12 +12,7 @@ export const mainListItems = (
   <div>
     <ListItem
       button
-      component={({ children, ...props }) => (
-        <Link to="/" {...props}>
-          {children}
-        </Link>
-      )}
-    >
+      component={Link} to="/">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -25,12 +20,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem
       button
-      component={({ children, ...props }) => (
-        <Link to="/employees" {...props}>
-          {children}
-        </Link>
-      )}
-    >
+      component={Link} to="/employees">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
@@ -38,12 +28,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem
       button
-      component={({ children, ...props }) => (
-        <Link to="/managers" {...props}>
-          {children}
-        </Link>
-      )}
-    >
+      component={Link} to="/managers">
       <ListItemIcon>
         <PeopleIcon style={{ color: "red" }} />
       </ListItemIcon>
@@ -57,12 +42,7 @@ export const secondaryListItems = (
     <ListSubheader inset>Reports</ListSubheader>
     <ListItem
       button
-      component={({ children, ...props }) => (
-        <Link to="/employee/1" {...props}>
-          {children}
-        </Link>
-      )}
-    >
+      component={Link} to="/employee/1">
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>

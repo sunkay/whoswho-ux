@@ -14,11 +14,13 @@ const styles = {
     overflowX: "auto"
   },
   table: {
-    minWidth: 700
+    minWidth: 700,
+    tableLayout: 'auto'
   },
   tablecell: {
-    fontSize: "100pt"
-  }
+    fontSize: "100pt",
+    width: 'auto'
+  },
 };
 
 const GET_EMP = gql`
@@ -42,9 +44,9 @@ function EmpList(props) {
         var listItems = data.employees.map(emp => {
           return (
             <TableRow key={emp.id} className={classes.tablecell}>
-              <TableCell>{emp.id}</TableCell>
               <TableCell>{emp.firstname}</TableCell>
               <TableCell>{emp.lastname}</TableCell>
+              <TableCell>{emp.id}</TableCell>
             </TableRow>
           );
         });
@@ -53,9 +55,9 @@ function EmpList(props) {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow className={classes.tablecell}>
-                  <TableCell>ID</TableCell>
                   <TableCell>FirstName</TableCell>
                   <TableCell>LastName</TableCell>
+                  <TableCell>ID</TableCell>
                 </TableRow>
                 {listItems}
               </TableHead>

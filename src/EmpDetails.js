@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { Paper } from "@material-ui/core";
+import { Paper, Divider } from "@material-ui/core";
 
 const GET_EMP = gql`
   query Employee($id: String!) {
@@ -65,6 +65,7 @@ function EmpDetails(props) {
             <div className={classes.search}>
               <ApolloAutoComplete />
             </div>
+            <Divider className={classes.top}/>
             <Card className={classes.card}>
               <CardContent>
                 <Typography

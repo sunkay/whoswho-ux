@@ -80,7 +80,7 @@ const styles = theme => ({
   }
 });
 
-const LinkToSlash = props => <Link to="/" {...props} />;
+//const LinkToSlash = props => <Link to="/" {...props} />;
 
 class Dashboard extends React.Component {
   state = {
@@ -130,7 +130,7 @@ class Dashboard extends React.Component {
                 noWrap
                 className={classes.title}
               >
-                <Button component={LinkToSlash} style={{ color: "white" }}>
+                <Button component={Link} to="/" style={{ color: "white" }}>
                   WhosWho
                 </Button>
               </Typography>
