@@ -13,12 +13,18 @@
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "typeface-roboto": "0.0.54"
+    "react-test-renderer": "^16.4.2",
+    "react-testing-library": "^5.0.0",
+    "typeface-roboto": "0.0.54",
+    "waait": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "jest-dom": "^1.12.0"
   }
 }

@@ -10,7 +10,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { Paper, Divider } from "@material-ui/core";
 
-const GET_EMP = gql`
+export const GET_EMP = gql`
   query Employee($id: String!) {
     employee(id: $id) {
       id

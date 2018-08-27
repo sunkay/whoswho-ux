@@ -23,7 +23,7 @@ const styles = {
   },
 };
 
-const GET_EMP = gql`
+export const GET_EMP_LIST = gql`
   query {
     employees {
       id
@@ -37,11 +37,17 @@ function EmpList(props) {
   const { classes } = props;
 
   return (
-    <Query query={GET_EMP}>
+    <Query query={GET_EMP_LIST}>
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
-        if (error) return <div>Error :(</div>;
+        if (error){
+          console.log(error);
+          return <div>Error :(</div>;
+        } 
+
         var listItems = data.employees.map(emp => {
+          //console.log(emp)
+
           return (
             <TableRow key={emp.id} className={classes.tablecell}>
               <TableCell>{emp.firstname}</TableCell>
@@ -50,6 +56,8 @@ function EmpList(props) {
             </TableRow>
           );
         });
+        //console.log(listItems);
+
         return (
           <Paper className={classes.root}>
             <Table className={classes.table}>
