@@ -40,14 +40,14 @@ function EmpList(props) {
     <Query query={GET_EMP_LIST}>
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
+        if (!data) return <div></div>;
         if (error){
+          console.log("data on error; ", data);
           console.log(error);
           return <div>Error :(</div>;
         } 
 
         var listItems = data.employees.map(emp => {
-          //console.log(emp)
-
           return (
             <TableRow key={emp.id} className={classes.tablecell}>
               <TableCell>{emp.firstname}</TableCell>
@@ -56,7 +56,6 @@ function EmpList(props) {
             </TableRow>
           );
         });
-        //console.log(listItems);
 
         return (
           <Paper className={classes.root}>

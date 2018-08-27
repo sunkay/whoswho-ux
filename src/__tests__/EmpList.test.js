@@ -24,12 +24,12 @@ it('should render employee', async () => {
     },
     result: {
       data: { 
-        employees: {
+        employees: [
           { id: '0', firstname: 'Buck0', lastname: 'poodle0' },
           { "id": '1', firstname: 'Buck1', lastname: 'poodle1' },
           { id: '2', firstname: 'Buck2', lastname: 'poodle2' },
           { id: '3', firstname: 'Buck3', lastname: 'poodle3' },
-        }
+        ]
       },
     },
   };
@@ -41,6 +41,6 @@ it('should render employee', async () => {
   );
 
   await wait(1); // wait for response
-  debug();
+  //debug();
   expect(container).toHaveTextContent('Buck');
 });
