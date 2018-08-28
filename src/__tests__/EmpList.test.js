@@ -34,13 +34,17 @@ it('should render employee', async () => {
     },
   };
 
-  const { debug, container } = render(
+  const { getByText, debug, container } = render(
     <MockedProvider mocks={[EmpMock]} addTypename={false}>
       <EmpList />
     </MockedProvider>,
   );
 
   await wait(1); // wait for response
-  //debug();
-  expect(container).toHaveTextContent('Buck');
+  //debug(getByText('Buck1'));
+  expect(container).toHaveTextContent('Buck0');
+  expect(container).toHaveTextContent('Buck1');
+  expect(container).toHaveTextContent('Buck2');
+  expect(container).toHaveTextContent('Buck3');
+
 });
