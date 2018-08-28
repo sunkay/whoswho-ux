@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 });
 
-const GET_EMP = gql`
+export const GET_ALL_EMP = gql`
   query AllEmployees($inputValue: String!) {
     allEmployees(filter: $inputValue) {
       id
@@ -118,7 +118,7 @@ function ApolloAutoCompleteMenu({
 
   return (
     <Query
-      query={GET_EMP}
+      query={GET_ALL_EMP}
       variables={{
         inputValue
       }}

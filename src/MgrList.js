@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-const GET_MGR = gql`
+export const GET_MGR_LIST = gql`
   query {
     managers {
       id
@@ -35,7 +35,7 @@ function MgrList(props) {
   const { classes } = props;
 
   return (
-    <Query query={GET_MGR}>
+    <Query query={GET_MGR_LIST}>
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
