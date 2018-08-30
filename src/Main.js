@@ -5,6 +5,8 @@ import EmpList from "./EmpList";
 import MgrList from "./MgrList";
 import EmpDetails from "./EmpDetails";
 import ApolloAutoComplete from "./ApolloAutoComplete";
+import EmpAdd from "./EmpAdd";
+
 
 const styles = theme => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -32,7 +34,7 @@ function Main(props) {
         <Route exact path="/" component={ApolloAutoComplete} />
         <Route path="/employees" component={EmpList} />
         <Route path="/managers" component={MgrList} />
-        <Route path="/employee/:id" component={EmpDetails} />
+        <Route path="/employee/:id" component={EmpAdd} />
 
       </div>
     </main>
