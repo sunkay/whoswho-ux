@@ -34,7 +34,7 @@ it('should render employee', async () => {
     },
   };
 
-  const { getByText, debug, container } = render(
+  const { getByText, debug, container } = renderWithRouter(
     <MockedProvider mocks={[EmpMock]} addTypename={false}>
       <EmpList />
     </MockedProvider>,

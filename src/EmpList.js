@@ -7,6 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
+import { Link } from "react-router-dom";
+import { IconButton, Tooltip } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -15,12 +18,12 @@ const styles = {
   },
   table: {
     minWidth: 700,
-    tableLayout: 'auto'
+    tableLayout: "auto"
   },
   tablecell: {
     fontSize: "100pt",
-    width: 'auto'
-  },
+    width: "auto"
+  }
 };
 
 export const GET_EMP_LIST = gql`
@@ -40,12 +43,12 @@ function EmpList(props) {
     <Query query={GET_EMP_LIST}>
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
-        if (!data) return <div></div>;
-        if (error){
+        if (!data) return <div />;
+        if (error) {
           console.log("data on error; ", data);
           console.log(error);
           return <div>Error :(</div>;
-        } 
+        }
 
         var listItems = data.employees.map(emp => {
           return (
@@ -53,6 +56,16 @@ function EmpList(props) {
               <TableCell>{emp.firstname}</TableCell>
               <TableCell>{emp.lastname}</TableCell>
               <TableCell>{emp.id}</TableCell>
+              <TableCell>
+                <Tooltip title={`Delete ${emp.id}`}>
+                  <IconButton
+                    component={Link}
+                    to={`/deleteEmployee/${emp.id}/${emp.firstname}`}
+                  >
+                    <DeleteForeverTwoToneIcon className={classes.icon} />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           );
         });
@@ -65,6 +78,7 @@ function EmpList(props) {
                   <TableCell>FirstName</TableCell>
                   <TableCell>LastName</TableCell>
                   <TableCell>ID</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
                 {listItems}
               </TableHead>
