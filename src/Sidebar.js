@@ -39,14 +39,14 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Reports</ListSubheader>
+    <ListSubheader inset>Admin</ListSubheader>
     <ListItem
       button
-      component={Link} to="/employee/1">
+      component={Link} to="/addemployee">
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Add Employee" />
     </ListItem>
   </div>
 );

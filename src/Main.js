@@ -34,7 +34,8 @@ function Main(props) {
         <Route exact path="/" component={ApolloAutoComplete} />
         <Route path="/employees" component={EmpList} />
         <Route path="/managers" component={MgrList} />
-        <Route path="/employee/:id" component={EmpAdd} />
+        <Route path="/employee/:id" component={EmpDetails} />
+        <Route path="/addemployee" component={EmpAdd} />
 
       </div>
     </main>

@@ -3,17 +3,35 @@ import { MockedProvider } from "react-apollo/test-utils";
 import {renderWithRouter} from "./testUtils";
 import "jest-dom/extend-expect";
 import EmpAdd, { ADD_EMP } from "../EmpAdd";
+import { render } from "react-testing-library";
 
 const wait = require('waait');
 
-it("should render loading state initially", () => {
-    const { debug, container } = renderWithRouter(
+const mocks = [
+  {
+    request: {
+      query: ADD_EMP,
+      variables: { input: {id: '1', firstname: 'Buck', lastname: 'LN' }},
+    },
+    result: { data: {id: '1'}},
+  },
+];
+
+it("should render without error", () => {
+  const { debug, container } = render(
     <MockedProvider mocks={[]} addTypename={false}>
-      <EmpAdd match={{ params: { id: 1 } }} />
+      <EmpAdd />
     </MockedProvider>
   );
-  expect(container).toHaveTextContent('Loading...');
+});
 
+it("should render loading state initially", () => {
+    const { debug, container } = render(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <EmpAdd />
+    </MockedProvider>
+  );
+  debug(container);
 });
 
 /*
