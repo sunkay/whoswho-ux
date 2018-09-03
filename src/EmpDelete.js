@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { withRouter } from "react-router-dom";
+import { GET_EMP_LIST } from "./EmpList";
 
 export const DEL_EMP = gql`
   mutation DeleteEmployee($id: String!, $firstname: String!) {
@@ -41,7 +42,7 @@ class EmpDelete extends React.Component {
   }
 
   handleSubmit = (deleteEmp, e) => {
-    console.log("In EmpDelete:handleSubmit", this.props.match.params);
+    //console.log("In EmpDelete:handleSubmit", this.props.match.params);
     e.preventDefault();
     deleteEmp({
         variables:{
@@ -51,11 +52,20 @@ class EmpDelete extends React.Component {
     }).then(data => {
         // redirect to list employees
         this.props.history.push("/employees");
-        console.log(data);
     }).catch(err => {
         console.error("Error: ", JSON.stringify(err, null, 2));
     })
     this.handleClose();
+  }
+
+  handleUpdate = (cache, { data: {deleteEmployee} }) => {
+    const { employees } = cache.readQuery({ query: GET_EMP_LIST})
+    let filteredList = employees.filter(item => item.id !== deleteEmployee.id);
+
+    cache.writeQuery({
+      query: GET_EMP_LIST,
+      data: { employees: filteredList}
+    });
   }
 
   handleCancel = () => {
@@ -66,7 +76,10 @@ class EmpDelete extends React.Component {
   render() {
     return (
       <div>
-        <Mutation mutation={DEL_EMP}>
+        <Mutation 
+          mutation={DEL_EMP}
+          update={this.handleUpdate}
+        >
           {(delEmp, { loading, error }) => {
             return (
               <div>

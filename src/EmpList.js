@@ -8,21 +8,25 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
+import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import { Link } from "react-router-dom";
 import { IconButton, Tooltip } from "@material-ui/core";
 
 const styles = {
   root: {
+    display: 'flex',
     width: "100%",
     overflowX: "auto"
   },
   table: {
-    minWidth: 700,
+    minWidth: 340,
     tableLayout: "auto"
   },
   tablecell: {
     fontSize: "100pt",
-    width: "auto"
+    width: "auto",
+    paddingRight: 4,
+    paddingLeft: 5
   }
 };
 
@@ -65,6 +69,15 @@ function EmpList(props) {
                     <DeleteForeverTwoToneIcon className={classes.icon} />
                   </IconButton>
                 </Tooltip>
+                <Tooltip title={`Edit ${emp.id}`}>
+                <IconButton
+                  component={Link}
+                  to={`/deleteEmployee/${emp.id}/${emp.firstname}`}
+                >
+                  <EditTwoToneIcon className={classes.icon} />
+                </IconButton>
+              </Tooltip>
+
               </TableCell>
             </TableRow>
           );

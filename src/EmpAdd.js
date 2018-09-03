@@ -8,6 +8,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { GET_EMP_LIST } from "./EmpList";
+import { withRouter } from "react-router-dom";
 
 export const ADD_EMP = gql`
   mutation AddEmployee($input: AddEmployeeInput) {
@@ -34,32 +36,57 @@ class EmpAdd extends React.Component {
     this.setState({ open: true });
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps() {
     this.setState({ open: true });
   }
 
   handleSubmit = (addEmp, e) => {
     e.preventDefault();
     addEmp({
-        variables:{
-            input: {
-                id:this.id.value, 
-                firstname: this.firstname.value, 
-                lastname: this.lastname.value
-            }
+      variables: {
+        input: {
+          id: this.id.value,
+          firstname: this.firstname.value,
+          lastname: this.lastname.value
         }
-    }).then(data => {
-        console.log(data);
-    }).catch(err => {
-        console.error("Error: ", JSON.stringify(err, null, 2));
+      }
     })
+      .then(data => {
+        // redirect to list employees
+        this.props.history.push("/employees");
+      })
+      .catch(err => {
+        console.error("Error: ", JSON.stringify(err, null, 2));
+      });
     this.handleClose();
+  };
+
+  handleUpdate = (cache, { data: { addEmployee } }) => {
+    const { employees } = cache.readQuery({ query: GET_EMP_LIST });
+    cache.writeQuery({
+      query: GET_EMP_LIST,
+      data: {
+        employees: employees.concat([
+          {
+            id: addEmployee.id,
+            firstname: this.firstname.value,
+            lastname: this.lastname.value,
+            __typename: "Employee"
+          }
+        ])
+      }
+    });
+  };
+
+  handleCancel = () => {
+    this.handleClose();
+    this.props.history.push("/employees");
   }
 
   render() {
     return (
       <div>
-        <Mutation mutation={ADD_EMP}>
+        <Mutation mutation={ADD_EMP} update={this.handleUpdate}>
           {(addEmp, { loading, error }) => {
             return (
               <div>
@@ -77,31 +104,33 @@ class EmpAdd extends React.Component {
                       autoFocus
                       margin="dense"
                       id="firstname"
-                      inputRef={el => this.firstname = el}                      
+                      inputRef={el => (this.firstname = el)}
                       label="First Name"
                       fullWidth
                     />
                     <TextField
                       margin="dense"
                       id="lastname"
-                      inputRef={el => this.lastname = el}                      
+                      inputRef={el => (this.lastname = el)}
                       label="Last Name"
                       fullWidth
                     />
                     <TextField
                       margin="dense"
                       id="ID"
-                      inputRef={el => this.id = el}
+                      inputRef={el => (this.id = el)}
                       label="ID"
                       fullWidth
                     />
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={this.handleCancel} color="primary">
                       Cancel
                     </Button>
-                    <Button onClick={this.handleSubmit.bind(this,addEmp)}
-                    color="primary">
+                    <Button
+                      onClick={this.handleSubmit.bind(this, addEmp)}
+                      color="primary"
+                    >
                       Submit
                     </Button>
                   </DialogActions>
@@ -117,4 +146,4 @@ class EmpAdd extends React.Component {
   }
 }
 
-export default EmpAdd;
+export default withRouter(EmpAdd);

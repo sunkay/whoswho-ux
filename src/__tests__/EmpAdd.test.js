@@ -18,7 +18,7 @@ const mocks = [
 ];
 
 it("should render without error", () => {
-  const { debug, container } = render(
+  const { debug, container } = renderWithRouter(
     <MockedProvider mocks={[]} addTypename={false}>
       <EmpAdd />
     </MockedProvider>
@@ -26,7 +26,7 @@ it("should render without error", () => {
 });
 
 it("should render loading state initially", () => {
-    const { debug, container } = render(
+    const { debug, container } = renderWithRouter(
     <MockedProvider mocks={mocks} addTypename={false}>
       <EmpAdd />
     </MockedProvider>
