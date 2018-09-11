@@ -14,9 +14,14 @@ import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 
 class EmpEdit extends React.Component {
-  state = {
-    open: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -28,20 +33,33 @@ class EmpEdit extends React.Component {
 
   componentDidMount() {
     this.setState({ open: true });
-    this.firstname = "";
-    this.lastname = "";
-    this.id = "";
+    this.setState({
+        firstname: "",
+        lastname: "",
+        id: "",
+    });
   }
 
   componentWillReceiveProps() {
     this.setState({ open: true });
   }
 
+  handleInputChange = evt => {
+    const target = evt.target;
+    this.setState({
+      [target.name]: target.value
+    });
+  };
+
+  handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(this.state);
+  }
+
   handleCancel = () => {
     this.handleClose();
     this.props.history.push("/employees");
   };
-
 
   render() {
     const { match } = this.props;
@@ -62,25 +80,25 @@ class EmpEdit extends React.Component {
                   <TextField
                     autoFocus
                     margin="dense"
-                    id="firstname"
-                    value={data.employee.firstname}
-                    inputRef={el => (this.firstname = el)}
+                    name="firstname"
+                    value={this.state.firstname}
+                    onChange={this.handleInputChange}
                     label="First Name"
                     fullWidth
                   />
                   <TextField
                     margin="dense"
-                    id="lastname"
-                    value={data.employee.lastname}
-                    inputRef={el => (this.lastname = el)}
+                    name="lastname"
+                    value={this.state.lastname}
+                    onChange={this.handleInputChange}
                     label="Last Name"
                     fullWidth
                   />
                   <TextField
                     margin="dense"
-                    id="ID"
-                    value={data.employee.id}
-                    inputRef={el => (this.id = el)}
+                    name="id"
+                    value={this.state.id}
+                    onChange={this.handleInputChange}
                     label="ID"
                     fullWidth
                   />
@@ -89,6 +107,12 @@ class EmpEdit extends React.Component {
                 <DialogActions>
                   <Button onClick={this.handleCancel} color="primary">
                     Cancel
+                  </Button>
+                  <Button
+                    onClick={this.handleSubmit.bind(this)}
+                    color="primary"
+                  >
+                    Submit
                   </Button>
                 </DialogActions>
               </Dialog>
