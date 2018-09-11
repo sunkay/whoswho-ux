@@ -72,7 +72,7 @@ function EmpList(props) {
                 <Tooltip title={`Edit ${emp.id}`}>
                 <IconButton
                   component={Link}
-                  to={`/deleteEmployee/${emp.id}/${emp.firstname}`}
+                  to={`/editEmployee/${emp.id}`}
                 >
                   <EditTwoToneIcon className={classes.icon} />
                 </IconButton>

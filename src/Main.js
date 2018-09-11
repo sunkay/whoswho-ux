@@ -7,6 +7,7 @@ import EmpDetails from "./EmpDetails";
 import ApolloAutoComplete from "./ApolloAutoComplete";
 import EmpAdd from "./EmpAdd";
 import EmpDelete from "./EmpDelete";
+import EmpEdit from "./EmpEdit";
 
 
 const styles = theme => ({
@@ -37,6 +38,7 @@ function Main(props) {
         <Route path="/managers" component={MgrList} />
         <Route path="/employee/:id" component={EmpDetails} />
         <Route path="/addemployee" component={EmpAdd} />
+        <Route path="/editEmployee/:id" component={EmpEdit} />
         <Route path="/deleteEmployee/:id/:firstname" component={EmpDelete} />
       </div>
     </main>
