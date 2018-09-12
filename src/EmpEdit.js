@@ -13,6 +13,16 @@ import {
 import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 
+export const UPDATE_EMP = gql`
+  mutation UpdateEmployee($input: AddEmployeeInput) {
+    updateEmployee(input: $input) {
+      id
+      firstname
+      lastname
+    }
+  }
+`;
+
 class EmpEdit extends React.Component {
   constructor(props) {
     super(props);
@@ -34,9 +44,9 @@ class EmpEdit extends React.Component {
   componentDidMount() {
     this.setState({ open: true });
     this.setState({
-        firstname: "",
-        lastname: "",
-        id: "",
+      firstname: "",
+      lastname: "",
+      id: ""
     });
   }
 
@@ -46,89 +56,127 @@ class EmpEdit extends React.Component {
 
   handleInputChange = evt => {
     const target = evt.target;
-    this.setState({
-      [target.name]: target.value
-    });
+    switch(target.name){
+      case "id":
+        this.data.employee.id = target.value;
+        break;
+      case "firstname":
+        this.data.employee.firstname = target.value;
+        break;
+      case "lastname":
+        this.data.employee.lastname = target.value;
+        break;
+      default:
+        break;
+    }
   };
 
-  handleSubmit = (e) => {
-      e.preventDefault();
-      console.log(this.state);
-  }
+  handleSubmit = (updateEmp, e) => {
+    e.preventDefault();
+    console.log(this.state);
+    updateEmp({
+      variables: {
+        input: {
+          id: this.state.id,
+          firstname: this.state.firstname,
+          lastname: this.state.lastname
+        }
+      }
+    })
+      .then(data => {
+        this.props.history.push("/employees");
+      })
+      .catch(err => {
+        console.error("Error: ", JSON.stringify(err, null, 2));
+      });
+    this.handleClose();
+  };
 
   handleCancel = () => {
     this.handleClose();
     this.props.history.push("/employees");
   };
 
-  handleQueryCompleted = ({employee}) => {
-    console.log("in querycompleted",employee);
+  handleQueryCompleted = (data) => {
+    console.log("in querycompleted", data);
+    if(!data.employee) return;
     this.setState({
-      firstname: employee.firstname,
-      lastname: employee.lastname,
-      id: employee.id
-    })
-  }
+      firstname: data.employee.firstname,
+      lastname: data.employee.lastname,
+      id: data.employee.id
+    });
+    
+  };
 
   render() {
     const { match } = this.props;
     var id = match.params.id;
     return (
-      <Query query={GET_EMP} 
-      variables={{ id }}
-      onCompleted={this.handleQueryCompleted}
+      <Query
+        query={GET_EMP}
+        variables={{ id }}
       >
         {({ loading, error, data }) => {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>Error :( {console.log(error)}</div>;
+          this.data = data;
+          console.log("data:", data);
           return (
-            <div>
-              <Dialog open={this.state.open} onClose={this.handleClose}>
-                <DialogTitle>Editing employee details</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Please fill out all information accurately...
-                  </DialogContentText>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="firstname"
-                    value={this.state.firstname}
-                    onChange={this.handleInputChange}
-                    label="First Name"
-                    fullWidth
-                  />
-                  <TextField
-                    margin="dense"
-                    name="lastname"
-                    value={this.state.lastname}
-                    onChange={this.handleInputChange}
-                    label="Last Name"
-                    fullWidth
-                  />
-                  <TextField
-                    margin="dense"
-                    name="id"
-                    value={this.state.id}
-                    onChange={this.handleInputChange}
-                    label="ID"
-                    fullWidth
-                  />
-                </DialogContent>
+            <Mutation mutation={UPDATE_EMP} update={this.handleUpdate}>
+              {(updateEmp, { loading, error }) => {
+                {loading && <p>Loading...</p>}
+                {error && <p>Error :( Please try again</p>}
+                return (
+                  <div>
+                    <Dialog open={this.state.open} onClose={this.handleClose}>
+                      <DialogTitle>Editing employee details</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Please fill out all information accurately...
+                        </DialogContentText>
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          name="firstname"
+                          value={this.data.employee.firstname}
+                          onChange={this.handleInputChange}
+                          label="First Name"
+                          fullWidth
+                        />
+                        <TextField
+                          margin="dense"
+                          name="lastname"
+                          value={this.data.employee.lastname}
+                          onChange={this.handleInputChange}
+                          label="Last Name"
+                          fullWidth
+                        />
+                        <TextField
+                          margin="dense"
+                          name="id"
+                          value={this.data.employee.id}
+                          onChange={this.handleInputChange}
+                          label="ID"
+                          fullWidth
+                        />
+                      </DialogContent>
 
-                <DialogActions>
-                  <Button onClick={this.handleCancel} color="primary">
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={this.handleSubmit.bind(this)}
-                    color="primary"
-                  >
-                    Submit
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </div>
+                      <DialogActions>
+                        <Button onClick={this.handleCancel} color="primary">
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={this.handleSubmit.bind(this, updateEmp)}
+                          color="primary"
+                        >
+                          Submit
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+                );
+              }}
+            </Mutation>
           );
         }}
       </Query>
