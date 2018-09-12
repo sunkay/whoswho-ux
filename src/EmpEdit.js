@@ -56,19 +56,9 @@ class EmpEdit extends React.Component {
 
   handleInputChange = evt => {
     const target = evt.target;
-    switch(target.name){
-      case "id":
-        this.data.employee.id = target.value;
-        break;
-      case "firstname":
-        this.data.employee.firstname = target.value;
-        break;
-      case "lastname":
-        this.data.employee.lastname = target.value;
-        break;
-      default:
-        break;
-    }
+    this.setState({
+      [target.name]: target.value
+    });
   };
 
   handleSubmit = (updateEmp, e) => {
@@ -97,15 +87,12 @@ class EmpEdit extends React.Component {
     this.props.history.push("/employees");
   };
 
-  handleQueryCompleted = (data) => {
-    console.log("in querycompleted", data);
-    if(!data.employee) return;
+  handleQueryCompleted = ({ employee }) => {
     this.setState({
-      firstname: data.employee.firstname,
-      lastname: data.employee.lastname,
-      id: data.employee.id
+      firstname: employee.firstname,
+      lastname: employee.lastname,
+      id: employee.id
     });
-    
   };
 
   render() {
@@ -115,17 +102,21 @@ class EmpEdit extends React.Component {
       <Query
         query={GET_EMP}
         variables={{ id }}
+        onCompleted={this.handleQueryCompleted}
       >
         {({ loading, error, data }) => {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>Error :( {console.log(error)}</div>;
           this.data = data;
-          console.log("data:", data);
           return (
             <Mutation mutation={UPDATE_EMP} update={this.handleUpdate}>
               {(updateEmp, { loading, error }) => {
-                {loading && <p>Loading...</p>}
-                {error && <p>Error :( Please try again</p>}
+                {
+                  loading && <p>Loading...</p>;
+                }
+                {
+                  error && <p>Error :( Please try again</p>;
+                }
                 return (
                   <div>
                     <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -138,7 +129,7 @@ class EmpEdit extends React.Component {
                           autoFocus
                           margin="dense"
                           name="firstname"
-                          value={this.data.employee.firstname}
+                          value={this.state.firstname}
                           onChange={this.handleInputChange}
                           label="First Name"
                           fullWidth
@@ -146,7 +137,7 @@ class EmpEdit extends React.Component {
                         <TextField
                           margin="dense"
                           name="lastname"
-                          value={this.data.employee.lastname}
+                          value={this.state.lastname}
                           onChange={this.handleInputChange}
                           label="Last Name"
                           fullWidth
@@ -154,7 +145,7 @@ class EmpEdit extends React.Component {
                         <TextField
                           margin="dense"
                           name="id"
-                          value={this.data.employee.id}
+                          value={this.state.id}
                           onChange={this.handleInputChange}
                           label="ID"
                           fullWidth
