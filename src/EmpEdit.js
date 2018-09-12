@@ -61,11 +61,23 @@ class EmpEdit extends React.Component {
     this.props.history.push("/employees");
   };
 
+  handleQueryCompleted = ({employee}) => {
+    console.log("in querycompleted",employee);
+    this.setState({
+      firstname: employee.firstname,
+      lastname: employee.lastname,
+      id: employee.id
+    })
+  }
+
   render() {
     const { match } = this.props;
     var id = match.params.id;
     return (
-      <Query query={GET_EMP} variables={{ id }}>
+      <Query query={GET_EMP} 
+      variables={{ id }}
+      onCompleted={this.handleQueryCompleted}
+      >
         {({ loading, error, data }) => {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>Error :( {console.log(error)}</div>;
