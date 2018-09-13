@@ -43,10 +43,11 @@ class EmpEdit extends React.Component {
 
   componentDidMount() {
     this.setState({ open: true });
+
     this.setState({
-      firstname: "",
-      lastname: "",
-      id: ""
+      firstname: this.employee ? this.employee.firstname : "",
+      lastname: this.employee ? this.employee.lastname : "",
+      id: this.employee ? this.employee.id : ""
     });
   }
 
@@ -63,7 +64,6 @@ class EmpEdit extends React.Component {
 
   handleSubmit = (updateEmp, e) => {
     e.preventDefault();
-    console.log(this.state);
     updateEmp({
       variables: {
         input: {
@@ -98,6 +98,7 @@ class EmpEdit extends React.Component {
   render() {
     const { match } = this.props;
     var id = match.params.id;
+    console.log(this.props);
     return (
       <Query
         query={GET_EMP}
@@ -105,18 +106,15 @@ class EmpEdit extends React.Component {
         onCompleted={this.handleQueryCompleted}
       >
         {({ loading, error, data }) => {
+          console.log(id, data);
           if (loading) return <div>Loading...</div>;
           if (error) return <div>Error :( {console.log(error)}</div>;
-          this.data = data;
+          this.employee = data.employee;
           return (
             <Mutation mutation={UPDATE_EMP} update={this.handleUpdate}>
               {(updateEmp, { loading, error }) => {
-                {
-                  loading && <p>Loading...</p>;
-                }
-                {
-                  error && <p>Error :( Please try again</p>;
-                }
+                if (loading) return <div>Loading...</div>;
+                if (error) return <div>Error :( {console.log(error)}</div>;
                 return (
                   <div>
                     <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -144,6 +142,7 @@ class EmpEdit extends React.Component {
                         />
                         <TextField
                           margin="dense"
+                          disabled
                           name="id"
                           value={this.state.id}
                           onChange={this.handleInputChange}
