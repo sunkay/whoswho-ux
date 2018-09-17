@@ -18,5 +18,3 @@ export function renderWithRouter(
     }
   }
 
-  it('dummy test', () => {
-  });
