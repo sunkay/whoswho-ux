@@ -98,7 +98,7 @@ class EmpEdit extends React.Component {
   render() {
     const { match } = this.props;
     var id = match.params.id;
-    console.log(this.props);
+    console.log("in render: id: ", id, " props: ", this.props);
     return (
       <Query
         query={GET_EMP}
@@ -106,7 +106,6 @@ class EmpEdit extends React.Component {
         onCompleted={this.handleQueryCompleted}
       >
         {({ loading, error, data }) => {
-          console.log(id, data);
           if (loading) return <div>Loading...</div>;
           if (error) return <div>Error :( {console.log(error)}</div>;
           this.employee = data.employee;

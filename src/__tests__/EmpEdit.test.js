@@ -6,7 +6,7 @@ import EmpEdit, { UPDATE_EMP } from "../EmpEdit";
 import { GET_EMP } from "../EmpDetails";
 
 import { render } from "react-testing-library";
-import { Router } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 const wait = require('waait');
@@ -55,23 +55,16 @@ const mocks = [
       data: { employee: { id: 1, firstname: 'Buck', lastname: 'poodle' } },
     },
   }
-
-
-
-
 ];
 
 it.only("should render without error", () => {
-  history = createMemoryHistory({ initialEntries: [] });
-  history.push({
-    pathname: '/editEmployee',
-    search: '?id=1'
-  })
+  history = createMemoryHistory({ initialEntries: ['/'] });
+
   const { debug, container } = render(
-    <Router history={history}>
+    <MemoryRouter initialEntries={['/employeeEdit/1']}>
       <MockedProvider mocks={mocks}>
-        <EmpEdit />
+        <Route exact path="/employeeEdit/id" component={EmpEdit} />
       </MockedProvider>
-    </Router>
+    </MemoryRouter>
   );
 });
