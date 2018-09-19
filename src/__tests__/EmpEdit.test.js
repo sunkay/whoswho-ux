@@ -5,7 +5,7 @@ import "jest-dom/extend-expect";
 import EmpEdit, { UPDATE_EMP } from "../EmpEdit";
 import { GET_EMP } from "../EmpDetails";
 
-import { render, getByTestId, prettyDOM } from "react-testing-library";
+import { render } from "react-testing-library";
 import { MemoryRouter, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
@@ -38,7 +38,7 @@ it("should render loading state initially", () => {
 it("should render dialog with employee data", async () => {
   history = createMemoryHistory({ initialEntries: ['/'] });
 
-  const { debug, getByTestId } = render(
+  const { getByTestId } = render(
     <MemoryRouter initialEntries={['/employeeEdit/1']}>
       <MockedProvider mocks={mocks} addTypename={false}>
         <Route exact path="/employeeEdit/:id" component={EmpEdit} />
@@ -46,8 +46,9 @@ it("should render dialog with employee data", async () => {
     </MemoryRouter>
   );
   await wait(0); // wait for response
-  //console.error(prettyDOM(getByTestId('id-input')))
-  expect(getByTestId('id-input').toHaveAttribute('disabled'))
-
+  //console.error(prettyDOM(getByTestId('id-input', {selector: 'input'}).querySelector('input')))
+  //expect(getByTestId('id-input').querySelector('input')).toHaveAttribute('name', 'id');
+  expect(getByTestId('id-input').querySelector('input').value).toBe('1');
+  expect(getByTestId('firstname-input').querySelector('input').value).toBe('Buck');
 
 });
