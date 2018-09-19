@@ -98,7 +98,6 @@ class EmpEdit extends React.Component {
   render() {
     const { match } = this.props;
     var id = match.params.id;
-    console.log("in render: id: ", id, " props: ", this.props);
     return (
       <Query
         query={GET_EMP}
@@ -125,6 +124,7 @@ class EmpEdit extends React.Component {
                         <TextField
                           autoFocus
                           margin="dense"
+                          data-testid="firstname-input"
                           name="firstname"
                           value={this.state.firstname}
                           onChange={this.handleInputChange}
@@ -134,6 +134,7 @@ class EmpEdit extends React.Component {
                         <TextField
                           margin="dense"
                           name="lastname"
+                          data-testid="lastname-input"
                           value={this.state.lastname}
                           onChange={this.handleInputChange}
                           label="Last Name"
@@ -142,6 +143,7 @@ class EmpEdit extends React.Component {
                         <TextField
                           margin="dense"
                           disabled
+                          data-testid="id-input"
                           name="id"
                           value={this.state.id}
                           onChange={this.handleInputChange}
