@@ -31,7 +31,9 @@ class EmpEdit extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+  
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -62,7 +64,7 @@ class EmpEdit extends React.Component {
     });
   };
 
-  handleSubmit = (updateEmp, e) => {
+  handleSubmit(updateEmp, e){
     e.preventDefault();
     updateEmp({
       variables: {
