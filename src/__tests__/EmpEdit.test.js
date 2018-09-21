@@ -1,13 +1,10 @@
 import React from "react";
 import { MockedProvider } from "react-apollo/test-utils";
-import { renderWithRouter, renderWithRouterEdit } from "./testUtils";
 import "jest-dom/extend-expect";
-import EmpEdit, { UPDATE_EMP } from "../EmpEdit";
+import {EmpEdit, UPDATE_EMP } from "../EmpEdit";
 import { GET_EMP } from "../EmpDetails";
-
-import { mount, render, fireEvent } from "react-testing-library";
-import { MemoryRouter, Route } from "react-router-dom";
-import { createMemoryHistory } from "history";
+import { render, fireEvent } from "react-testing-library";
+import { MemoryRouter, Route, withRouter } from "react-router-dom";
 
 const wait = require("waait");
 
@@ -32,22 +29,6 @@ const mocks = [
   }
 ];
 
-class Test extends React.Component {
-  constructor(props) {
-    super(props);
-    this.func = this.func.bind(this);
-  }
-  componentDidMount() {
-    this.func();
-  }
-  func() {
-    // noop
-  };
-  render() {
-    return null;
-  }
-};
-
 it("should render loading state initially", () => {
   const { debug, getByText, container } = render(
     <MemoryRouter initialEntries={["/employeeEdit/1"]}>
@@ -59,30 +40,47 @@ it("should render loading state initially", () => {
   expect(container).toHaveTextContent("Loading...");
 });
 
-it("should render dialog with employee data", async () => {
-
-  console.error(EmpEdit.prototype);
-  const spy = jest.spyOn(Test.prototype, 'func');
-  let comp = (
+it("test wrapped component spying", async () => {
+  const spy = jest.spyOn(EmpEdit.prototype, "handleSubmit");
+  const { debug, getByTestId } = render(
     <MemoryRouter initialEntries={["/employeeEdit/1"]}>
       <MockedProvider mocks={mocks} addTypename={false}>
         <Route exact path="/employeeEdit/:id" component={EmpEdit} />
       </MockedProvider>
     </MemoryRouter>
   );
-
-  const { debug, getByTestId, getByText } = render(comp);
-  
-
   await wait(0); // wait for response
-  //console.error(prettyDOM(getByTestId('id-input', {selector: 'input'}).querySelector('input')))
-  //expect(getByTestId('id-input').querySelector('input')).toHaveAttribute('name', 'id');
   expect(getByTestId("id-input").querySelector("input").value).toBe("1");
   expect(getByTestId("firstname-input").querySelector("input").value).toBe(
     "Buck"
   );
 
-  fireEvent.click(getByText("Submit"));
-  //debug();
+  fireEvent.click(getByTestId("submit-button"));
+  expect(spy).toHaveBeenCalledTimes(1);
+});
+
+
+it("Test jest.spyOn", () => {
+  class Test extends React.Component {
+    constructor(props) {
+      super(props);
+      this.func = this.func.bind(this);
+    }
+    componentDidMount() {
+      this.func();
+      this.func2();
+    }
+    func = () => {
+      // noop
+    };
+    func2() {
+      //noop
+    }
+    render() {
+      return null;
+    }
+  }
+  const spy = jest.spyOn(Test.prototype, "func2");
+  const { container } = render(<Test />);
   expect(spy).toHaveBeenCalledTimes(1);
 });

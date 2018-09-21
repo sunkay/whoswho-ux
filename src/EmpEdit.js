@@ -23,7 +23,7 @@ export const UPDATE_EMP = gql`
   }
 `;
 
-class EmpEdit extends React.Component {
+export class EmpEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +31,6 @@ class EmpEdit extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   
 
@@ -159,6 +158,7 @@ class EmpEdit extends React.Component {
                           Cancel
                         </Button>
                         <Button
+                          data-testid="submit-button"
                           onClick={this.handleSubmit.bind(this, updateEmp)}
                           color="primary"
                         >
